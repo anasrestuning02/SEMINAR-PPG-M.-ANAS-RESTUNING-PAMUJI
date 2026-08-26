@@ -328,24 +328,7 @@
                 <div class="mb-6">
                     <h4 class="text-lg font-semibold text-primary mb-2 flex items-center"><i class="fas fa-brain w-6"></i> Refleksi Pengalaman Belajar</h4>
                     
-                    <div class="space-y-4 text-gray-700 text-sm text-justify leading-relaxed">
-                        <div>
-                            <span class="font-semibold block text-gray-900 mb-1">1. Pengalaman Belajar Apa yang Berguna dan Menarik?</span>
-                            <p id="modal-ref-1">Teks refleksi pengalaman belajar akan muncul di sini.</p>
-                        </div>
-                        <div>
-                            <span class="font-semibold block text-gray-900 mb-1">2. Pengalaman Belajar Apa yang Berguna tetapi Kurang Menarik?</span>
-                            <p id="modal-ref-2">Teks refleksi akan muncul di sini.</p>
-                        </div>
-                        <div>
-                            <span class="font-semibold block text-gray-900 mb-1">3. Pengalaman Belajar Apa yang Menarik tetapi Kurang Berguna?</span>
-                            <p id="modal-ref-3">Teks refleksi akan muncul di sini.</p>
-                        </div>
-                        <div>
-                            <span class="font-semibold block text-gray-900 mb-1">4. Pengalaman Belajar Apa yang Tidak Menarik dan Tidak Berguna?</span>
-                            <p id="modal-ref-4">Teks refleksi akan muncul di sini.</p>
-                        </div>
-                    </div>
+                
                 </div>
 
                 <hr class="border-gray-100 my-6">
@@ -354,19 +337,9 @@
                     <h4 class="text-lg font-semibold text-accent mb-4 flex items-center"><i class="fas fa-folder-open w-6"></i> Artefak Pembelajaran</h4>
                     <p class="text-sm text-gray-600 mb-4">Berikut adalah bukti karya/artefak yang dihasilkan selama mengikuti mata kuliah ini.</p>
                     
-                    <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 hover:border-accent transition-colors">
-                        <div class="flex items-center gap-3 w-full sm:w-auto">
-                            <div class="bg-red-100 text-red-600 p-3 rounded-lg">
-                                <i class="fas fa-file-pdf text-xl"></i>
-                            </div>
-                            <div>
-                                <h5 class="font-semibold text-gray-800 text-sm">Jurnal Refleksi Dwi Mingguan.pdf</h5>
-                                <span class="text-xs text-gray-500">Tugas Akhir Mata Kuliah</span>
-                            </div>
-                        </div>
-                        <a id="modal-artifact-link" href="#" target="_blank" class="w-full sm:w-auto text-center bg-white border-2 border-primary text-primary hover:bg-primary hover:text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                            Lihat Artefak
-                        </a>
+                    <!-- Container untuk menampung banyak artefak yang di-generate via JavaScript -->
+                    <div id="modal-artifacts-container" class="space-y-3">
+                        <!-- Konten artefak akan masuk ke sini otomatis -->
                     </div>
                 </div>
                 
@@ -389,7 +362,7 @@
     </footer>
 
     <script>
-        // Anda dapat MENGUBAH nama mata kuliah dan isinya di sini!
+        // DATA MATA KULIAH (TERMASUK ARTEFAK BARU)
         const mataKuliahSem1 = [
             {
                 id: "s1_mk1",
@@ -401,7 +374,10 @@
                     "Konsep utama yang saya pelajari adalah pendidikan sebagai proses menuntun kodrat anak, kodrat alam dan zaman, pendidikan nilai, kode etik guru, serta pola pikir bertumbuh.", 
                     "Setelah ini, saya ingin menjadi guru yang konsisten dalam keteladanan, mengintegrasikan nilai dalam pembelajaran Informatika, dan berkontribusi membangun budaya sekolah yang positif."
                 ],
-                artefak_link: "https://drive.google.com/file/d/1Q5tEz2-HGccCZV0sA2AYuo-5l0aDTjnx/view?usp=sharing"
+                artefak: [
+                    { nama: "Tugas Jurnal Refleksi", link: "https://drive.google.com/file/d/1Q5tEz2-HGccCZV0sA2AYuo-5l0aDTjnx/view?usp=sharing" },
+                    { nama: "Artefak Kedua (Contoh)", link: "#" } // Anda bisa menambah koma untuk tugas ke-3 dst
+                ]
             },
             {
                 id: "s1_mk2",
@@ -413,35 +389,45 @@
                     "Permainan role-play saat kuliah menarik, namun tidak secara langsung mengatasi masalah nyata di kelas PPL saya.",
                     "Tidak ada."
                 ],
-                artefak_link: "#"
+                artefak: [
+                    { nama: "Artefak 1", link: "#" }
+                ]
             },
             {
                 id: "s1_mk3",
                 nama: "Prinsip Pengajaran dan Asesmen I",
                 icon: "fa-chalkboard-teacher",
                 refleksi: ["Menyusun modul ajar dengan pendekatan Understanding by Design (UbD).", "Menyusun rubrik penilaian yang sangat detail.", "Diskusi kelomopok tentang ragam asesmen.", "Tidak ada."],
-                artefak_link: "#"
+                artefak: [
+                    { nama: "Artefak 1", link: "#" }
+                ]
             },
             {
                 id: "s1_mk4",
                 nama: "Praktik Pengalaman Lapangan (PPL) I",
                 icon: "fa-school",
                 refleksi: ["Terjun langsung mengajar di kelas terbimbing dan mendapat feedback dari Guru Pamong.", "Menyusun laporan administrasi observasi sekolah yang cukup repetitif.", "Observasi lingkungan fisik sekolah.", "Tidak ada."],
-                artefak_link: "#"
+                artefak: [
+                    { nama: "Artefak 1", link: "#" }
+                ]
             },
             {
                 id: "s1_mk5",
                 nama: "Mata Kuliah Pilihan I",
                 icon: "fa-plus-circle",
                 refleksi: ["Mempelajari integrasi teknologi dalam pembelajaran.", "Mengkaji teori-teori adopsi teknologi.", "Mencoba berbagai aplikasi game edukasi usang.", "Tidak ada."],
-                artefak_link: "#"
+                artefak: [
+                    { nama: "Artefak 1", link: "#" }
+                ]
             },
             {
                 id: "s1_mk6",
                 nama: "Proyek Kepemimpinan I",
                 icon: "fa-project-diagram",
                 refleksi: ["Merancang pemetaan potensi lingkungan sekitar sekolah untuk proyek sosial.", "Mengurus perizinan birokrasi proyek.", "Brainstorming ide proyek yang ternyata tidak visibel.", "Tidak ada."],
-                artefak_link: "#"
+                artefak: [
+                    { nama: "Artefak 1", link: "#" }
+                ]
             }
         ];
 
@@ -451,77 +437,77 @@
                 nama: "Pembelajaran Sosial Emosional",
                 icon: "fa-hands-helping",
                 refleksi: ["Praktik mindfulness (kesadaran penuh) dan teknik STOP untuk mengelola emosi di kelas.", "Membaca jurnal teori kecerdasan emosional.", "Bermain peran sebagai siswa yang tantrum.", "Tidak ada."],
-                artefak_link: "#"
+                artefak: [
+                    { nama: "Artefak 1", link: "#" }
+                ]
             },
             {
                 id: "s2_mk2",
                 nama: "Prinsip Pengajaran dan Asesmen II",
                 icon: "fa-tasks",
                 refleksi: ["Merancang pembelajaran berdiferensiasi dan Teaching at the Right Level (TaRL).", "Menyusun instrumen penilaian afektif dan psikomotorik.", "Menganalisis contoh RPP guru lain.", "Tidak ada."],
-                artefak_link: "#"
+                artefak: [
+                    { nama: "Artefak 1", link: "#" }
+                ]
             },
             {
                 id: "s2_mk3",
                 nama: "Praktik Pengalaman Lapangan (PPL) II",
                 icon: "fa-chalkboard",
                 refleksi: ["Mengajar mandiri, mengelola dinamika kelas secara utuh, dan PTK Kolaboratif.", "Merekam video full pembelajaran dan mengeditnya.", "Mengikuti kegiatan seremonial sekolah.", "Tidak ada."],
-                artefak_link: "#"
+                artefak: [
+                    { nama: "Artefak 1", link: "#" }
+                ]
             },
             {
                 id: "s2_mk4",
                 nama: "Seminar Pendidikan Profesi Guru",
                 icon: "fa-user-graduate",
                 refleksi: ["Menyusun portofolio digital ini dan merefleksikan seluruh proses.", "Mengkaji sistematika penulisan laporan akhir.", "Latihan presentasi.", "Tidak ada."],
-                artefak_link: "#"
+                artefak: [
+                    { nama: "Artefak 1", link: "#" }
+                ]
             },
             {
                 id: "s2_mk5",
                 nama: "Mata Kuliah Pilihan II",
                 icon: "fa-lightbulb",
                 refleksi: ["Membuat modul ajar berbasis kearifan lokal.", "Menganalisis dokumen kurikulum daerah.", "Diskusi tentang sejarah daerah.", "Tidak ada."],
-                artefak_link: "#"
+                artefak: [
+                    { nama: "Artefak 1", link: "#" }
+                ]
             },
             {
                 id: "s2_mk6",
                 nama: "Proyek Kepemimpinan II",
                 icon: "fa-flag-checkered",
                 refleksi: ["Melaksanakan pameran karya atau eksekusi aksi nyata di panti asuhan/masyarakat.", "Menyusun LPJ Keuangan.", "Rapat koordinasi mingguan.", "Tidak ada."],
-                artefak_link: "#"
+                artefak: [
+                    { nama: "Artefak 1", link: "#" }
+                ]
             }
         ];
 
         
-        // Fungsi untuk Navigasi antar Menu (Single Page Application logic)
+        // Fungsi untuk Navigasi antar Menu
         function navigate(sectionId) {
-            // Sembunyikan semua section
             document.querySelectorAll('.page-section').forEach(section => {
                 section.classList.remove('active');
             });
-            
-            // Tampilkan section yang dipilih
             document.getElementById(sectionId).classList.add('active');
-            
-            // Update status tombol navbar
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('bg-blue-50', 'text-primary');
                 btn.classList.add('text-gray-700');
             });
-            
-            // Update tombol yang aktif berdasarkan atribut onclick
             const activeBtns = document.querySelectorAll(`button[onclick="navigate('${sectionId}')"]`);
             activeBtns.forEach(btn => {
                 btn.classList.remove('text-gray-700');
                 btn.classList.add('bg-blue-50', 'text-primary');
             });
-
-            // Tutup menu mobile jika terbuka
             document.getElementById('mobile-menu').classList.add('hidden');
-            
-            // Scroll ke atas
             window.scrollTo(0, 0);
         }
 
-        // Toggle Menu Mobile
         document.getElementById('mobile-menu-btn').addEventListener('click', () => {
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
@@ -530,15 +516,12 @@
         // Fungsi Render Kartu Mata Kuliah
         function renderSubjects(dataArray, containerId) {
             const container = document.getElementById(containerId);
-            container.innerHTML = ''; // Kosongkan dulu
+            container.innerHTML = ''; 
 
             dataArray.forEach(subject => {
                 const card = document.createElement('div');
                 card.className = "subject-card bg-white rounded-xl p-6 border border-gray-100 shadow-sm cursor-pointer group";
-                
-                // Mengkonversi objek ke string aman untuk dilempar ke fungsi onclick
                 const subjectData = JSON.stringify(subject).replace(/"/g, '&quot;');
-
                 card.innerHTML = `
                     <div onclick="openModal(${subjectData})" class="h-full flex flex-col">
                         <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors mb-4">
@@ -556,33 +539,55 @@
         function openModal(subject) {
             const modal = document.getElementById('subject-modal');
             
-            // Isi Konten
             document.getElementById('modal-title').innerText = subject.nama;
             document.getElementById('modal-ref-1').innerText = subject.refleksi[0];
             document.getElementById('modal-ref-2').innerText = subject.refleksi[1];
             document.getElementById('modal-ref-3').innerText = subject.refleksi[2];
             document.getElementById('modal-ref-4').innerText = subject.refleksi[3];
-            document.getElementById('modal-artifact-link').href = subject.artefak_link;
             
-            // Tampilkan Modal
+            // Render Daftar Artefak Dinamis (INI YANG BARU)
+            const artifactsContainer = document.getElementById('modal-artifacts-container');
+            artifactsContainer.innerHTML = ''; 
+
+            if (subject.artefak && subject.artefak.length > 0) {
+                subject.artefak.forEach(art => {
+                    const artHtml = `
+                        <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 hover:border-accent transition-colors">
+                            <div class="flex items-center gap-3 w-full sm:w-auto">
+                                <div class="bg-red-100 text-red-600 p-3 rounded-lg flex-shrink-0">
+                                    <i class="fas fa-file-alt text-xl"></i>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-800 text-sm line-clamp-2">${art.nama}</h5>
+                                    <span class="text-xs text-gray-500">Dokumen Artefak</span>
+                                </div>
+                            </div>
+                            <a href="${art.link}" target="_blank" class="w-full sm:w-auto text-center bg-white border-2 border-primary text-primary hover:bg-primary hover:text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex-shrink-0">
+                                Lihat
+                            </a>
+                        </div>
+                    `;
+                    artifactsContainer.innerHTML += artHtml;
+                });
+            } else {
+                artifactsContainer.innerHTML = '<p class="text-sm text-gray-500 italic py-2">Belum ada artefak yang ditambahkan.</p>';
+            }
+            
             modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; // Cegah scroll background
+            document.body.style.overflow = 'hidden'; 
         }
 
-        // Tutup Modal
         function closeModal() {
             const modal = document.getElementById('subject-modal');
             modal.classList.add('hidden');
-            document.body.style.overflow = 'auto'; // Kembalikan scroll background
+            document.body.style.overflow = 'auto'; 
         }
 
-        // Render saat halaman dimuat
         window.addEventListener('DOMContentLoaded', () => {
             renderSubjects(mataKuliahSem1, 'grid-sem-1');
             renderSubjects(mataKuliahSem2, 'grid-sem-2');
         });
         
-        // Menutup modal jika tombol Escape ditekan
         document.addEventListener('keydown', function(event) {
             if (event.key === "Escape") {
                 closeModal();
