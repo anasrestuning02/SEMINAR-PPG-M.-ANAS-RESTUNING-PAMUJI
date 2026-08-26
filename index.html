@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Seminar PPG</title>
+    
+    <!-- Fonts: Google Fonts (Poppins) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons: FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS Framework: Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Konfigurasi Tema Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#1e40af', // Blue 800
+                        secondary: '#3b82f6', // Blue 500
+                        accent: '#f59e0b', // Amber 500
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Kustom CSS untuk Animasi dan Scrollbar -->
+    <style>
+        body {
+            scroll-behavior: smooth;
+        }
+        
+        /* Kustom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        /* Animasi Transisi Halaman */
+        .page-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .page-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Efek Hover Kartu */
+        .subject-card {
+            transition: all 0.3s ease;
+        }
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Modal Overlay */
+        #modal-overlay {
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+
+    <!-- Navigasi -->
+    <nav class="bg-white shadow-md sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <!-- Logo / Title -->
+                <div class="flex items-center">
+                    <i class="fas fa-graduation-cap text-primary text-2xl mr-2"></i>
+                    <span class="font-bold text-xl text-primary tracking-tight">E-Portofolio PPG</span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-1">
+                    <button onclick="navigate('home')" class="nav-btn active px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-primary hover:bg-blue-50 transition-colors">Profil</button>
+                    <button onclick="navigate('semester1')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-primary hover:bg-blue-50 transition-colors">Semester 1</button>
+                    <button onclick="navigate('semester2')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-primary hover:bg-blue-50 transition-colors">Semester 2</button>
+                    <button onclick="navigate('refleksi')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-primary hover:bg-blue-50 transition-colors">Refleksi Keseluruhan</button>
+                    <button onclick="navigate('inovasi')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-primary hover:bg-blue-50 transition-colors">Karya Inovasi</button>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="flex items-center md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-500 hover:text-primary focus:outline-none p-2">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <button onclick="navigate('home')" class="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-primary bg-blue-50">Profil</button>
+                <button onclick="navigate('semester1')" class="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-blue-50">Semester 1</button>
+                <button onclick="navigate('semester2')" class="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-blue-50">Semester 2</button>
+                <button onclick="navigate('refleksi')" class="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-blue-50">Refleksi Keseluruhan</button>
+                <button onclick="navigate('inovasi')" class="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-blue-50">Karya Inovasi</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Konten Utama -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- SECTION 1: HOME / PROFIL -->
+        <section id="home" class="page-section active">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="h-48 bg-gradient-to-r from-primary to-secondary relative">
+                    <!-- Hiasan latar belakang -->
+                    <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+                </div>
+                <div class="px-8 pb-8 flex flex-col md:flex-row items-center md:items-start relative -mt-20">
+                    <!-- Foto Profil -->
+                    <div class="w-40 h-40 rounded-full border-4 border-white shadow-lg bg-white overflow-hidden flex-shrink-0 relative z-10">
+                        <img src="https://placehold.co/400x400/e2e8f0/475569?text=Foto+Profil" alt="Foto Profil" class="w-full h-full object-cover">
+                    </div>
+                    
+                    <div class="mt-6 md:mt-24 md:ml-8 text-center md:text-left flex-grow">
+                        <h1 class="text-3xl font-bold text-gray-900">Nama Lengkap Anda, S.Pd.</h1>
+                        <p class="text-lg text-primary font-medium mt-1">Mahasiswa PPG Prajabatan Gelombang X Tahun XXXX</p>
+                        
+                        <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center space-x-3 text-gray-600">
+                                <i class="fas fa-university w-5 text-center text-accent"></i>
+                                <span>Universitas Penyelenggara LPTK</span>
+                            </div>
+                            <div class="flex items-center space-x-3 text-gray-600">
+                                <i class="fas fa-book-open w-5 text-center text-accent"></i>
+                                <span>Bidang Studi: Pendidikan Guru Sekolah Dasar (Contoh)</span>
+                            </div>
+                            <div class="flex items-center space-x-3 text-gray-600">
+                                <i class="fas fa-map-marker-alt w-5 text-center text-accent"></i>
+                                <span>Sekolah PPL: SD Negeri Contoh 1</span>
+                            </div>
+                            <div class="flex items-center space-x-3 text-gray-600">
+                                <i class="fas fa-envelope w-5 text-center text-accent"></i>
+                                <span>email.anda@mahasiswa.ac.id</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 border-t border-gray-100 pt-6">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-3">Tentang Saya</h2>
+                            <p class="text-gray-600 leading-relaxed text-justify">
+                                Selamat datang di e-portofolio saya. Website ini disusun sebagai bagian dari pemenuhan tugas Seminar Pendidikan Profesi Guru (PPG). Portofolio ini merangkum seluruh perjalanan, proses reflektif, dan artefak pembelajaran yang telah saya hasilkan selama mengikuti program PPG dari Semester 1 hingga Semester 2. Melalui program ini, saya berkomitmen untuk menjadi guru profesional yang reflektif, inovatif, dan berpusat pada peserta didik.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: SEMESTER 1 -->
+        <section id="semester1" class="page-section">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-gray-900 border-l-4 border-primary pl-4">Refleksi Pembelajaran Semester 1</h2>
+                <p class="mt-2 text-gray-600">Pilih mata kuliah di bawah ini untuk melihat detail refleksi pengalaman belajar dan artefak pembelajaran yang dihasilkan pada semester 1.</p>
+            </div>
+            
+            <!-- Grid Mata Kuliah Semester 1 (Dirender via JavaScript untuk efisiensi) -->
+            <div id="grid-sem-1" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Konten diisi oleh JS -->
+            </div>
+        </section>
+
+        <!-- SECTION 3: SEMESTER 2 -->
+        <section id="semester2" class="page-section">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-gray-900 border-l-4 border-primary pl-4">Refleksi Pembelajaran Semester 2</h2>
+                <p class="mt-2 text-gray-600">Pilih mata kuliah di bawah ini untuk melihat detail refleksi pengalaman belajar dan artefak pembelajaran yang dihasilkan pada semester 2.</p>
+            </div>
+            
+            <!-- Grid Mata Kuliah Semester 2 -->
+            <div id="grid-sem-2" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Konten diisi oleh JS -->
+            </div>
+        </section>
+
+        <!-- SECTION 4: REFLEKSI KESELURUHAN -->
+        <section id="refleksi" class="page-section">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-gray-900 border-l-4 border-primary pl-4">Refleksi Program PPG Keseluruhan</h2>
+                <p class="mt-2 text-gray-600">Rangkuman perjalanan transformasi diri sebagai pendidik profesional selama mengikuti program PPG.</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                <div class="space-y-8">
+                    <!-- Makna Menjadi Guru -->
+                    <div class="flex flex-col md:flex-row gap-6 items-start">
+                        <div class="bg-blue-50 p-4 rounded-xl flex-shrink-0 w-full md:w-48 text-center">
+                            <i class="fas fa-heart text-4xl text-primary mb-2"></i>
+                            <h3 class="font-bold text-primary">Makna Menjadi Guru</h3>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-gray-700 leading-relaxed text-justify">
+                                Selama mengikuti program PPG ini, paradigma saya tentang profesi guru bertransformasi secara mendasar. Guru bukan lagi sekadar penyampai informasi (transfer of knowledge), melainkan seorang fasilitator, pendamping, dan perancang ekosistem belajar yang berpihak pada peserta didik. Saya menyadari betapa pentingnya memahami latar belakang, karakteristik, dan kebutuhan setiap anak didik sesuai dengan kodrat alam dan zamannya.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Pengalaman Berharga -->
+                    <div class="flex flex-col md:flex-row gap-6 items-start border-t border-gray-100 pt-8">
+                        <div class="bg-amber-50 p-4 rounded-xl flex-shrink-0 w-full md:w-48 text-center">
+                            <i class="fas fa-star text-4xl text-accent mb-2"></i>
+                            <h3 class="font-bold text-accent">Pengalaman Paling Bermakna</h3>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-gray-700 leading-relaxed text-justify">
+                                Momen paling berharga terjadi pada saat pelaksanaan Praktik Pengalaman Lapangan (PPL). Berhadapan langsung dengan dinamika kelas mengajarkan saya ketangguhan (resilience) dan kemampuan adaptasi. Mengimplementasikan pembelajaran berdiferensiasi dan pendekatan TaRL (Teaching at the Right Level) awalnya menantang, namun melihat antusiasme dan peningkatan pemahaman siswa memberikan kepuasan batin yang tak ternilai.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Rencana Tindak Lanjut -->
+                    <div class="flex flex-col md:flex-row gap-6 items-start border-t border-gray-100 pt-8">
+                        <div class="bg-green-50 p-4 rounded-xl flex-shrink-0 w-full md:w-48 text-center">
+                            <i class="fas fa-seedling text-4xl text-green-600 mb-2"></i>
+                            <h3 class="font-bold text-green-600">Komitmen & Rencana</h3>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-gray-700 leading-relaxed text-justify">
+                                Ke depannya, saya berkomitmen untuk terus menjadi guru pembelajar sepanjang hayat. Rencana tindak lanjut saya meliputi: 
+                                <ul class="list-disc ml-5 mt-2 space-y-1 text-gray-700">
+                                    <li>Konsisten menerapkan asesmen diagnostik di awal pembelajaran.</li>
+                                    <li>Mengembangkan media pembelajaran berbasis teknologi yang interaktif.</li>
+                                    <li>Aktif dalam komunitas praktisi (MGMP/KKG) untuk berbagi praktik baik (best practices).</li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: KARYA INOVASI -->
+        <section id="inovasi" class="page-section">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-gray-900 border-l-4 border-primary pl-4">Karya Inovasi Pendidikan</h2>
+                <p class="mt-2 text-gray-600">Inovasi media, model, atau pendekatan pembelajaran yang dikembangkan selama masa studi PPG.</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col lg:flex-row">
+                <!-- Placeholder untuk Gambar / Video Karya -->
+                <div class="lg:w-1/2 bg-gray-200 relative group">
+                    <img src="https://placehold.co/800x600/3b82f6/ffffff?text=Thumbnail+Karya+Inovasi" alt="Karya Inovasi" class="w-full h-full object-cover">
+                    <!-- Overlay interaktif -->
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button class="bg-white text-primary font-bold py-2 px-4 rounded-full shadow-lg transform hover:scale-105 transition-transform">
+                            <i class="fas fa-play mr-2"></i> Lihat Demonstrasi
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="p-8 lg:w-1/2 flex flex-col justify-center">
+                    <div class="inline-block px-3 py-1 bg-blue-100 text-primary rounded-full text-sm font-semibold mb-4 w-max">
+                        Media Interaktif Berbasis Web
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Judul Karya Inovasi: "Ruang Jelajah Sains Interaktif"</h3>
+                    
+                    <h4 class="font-semibold text-gray-800 mt-2">Latar Belakang:</h4>
+                    <p class="text-gray-600 mb-4 text-sm text-justify">
+                        Rendahnya minat baca dan motivasi siswa pada materi sains yang abstrak memicu saya untuk menciptakan media ini. Media ini mengubah teks konvensional menjadi simulasi yang dapat dimanipulasi oleh siswa.
+                    </p>
+
+                    <h4 class="font-semibold text-gray-800">Dampak/Hasil:</h4>
+                    <p class="text-gray-600 mb-6 text-sm text-justify">
+                        Penerapan karya inovasi ini di kelas PPL terbukti meningkatkan keterlibatan aktif siswa sebesar 45% dan nilai rata-rata asesmen formatif naik secara signifikan.
+                    </p>
+
+                    <div class="mt-auto flex flex-wrap gap-3">
+                        <a href="#" class="bg-primary hover:bg-blue-700 text-white py-2 px-5 rounded-lg font-medium transition-colors shadow-sm inline-flex items-center">
+                            <i class="fas fa-file-pdf mr-2"></i> Dokumen Laporan
+                        </a>
+                        <a href="#" class="border border-gray-300 hover:bg-gray-50 text-gray-700 py-2 px-5 rounded-lg font-medium transition-colors inline-flex items-center">
+                            <i class="fas fa-link mr-2"></i> Kunjungi Karya
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL DETAIL MATA KULIAH -->
+    <div id="subject-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center">
+        <!-- Overlay -->
+        <div id="modal-overlay" class="absolute inset-0 bg-gray-900 bg-opacity-50 transition-opacity" onclick="closeModal()"></div>
+        
+        <!-- Modal Content -->
+        <div class="bg-white rounded-2xl shadow-2xl z-10 w-full max-w-4xl max-h-[90vh] mx-4 flex flex-col overflow-hidden transform transition-all">
+            
+            <!-- Header Modal -->
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                <h3 id="modal-title" class="text-xl font-bold text-gray-900">Nama Mata Kuliah</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-red-500 transition-colors focus:outline-none">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            
+            <!-- Body Modal (Scrollable) -->
+            <div class="px-6 py-6 overflow-y-auto flex-grow bg-white">
+                
+                <div class="mb-6">
+                    <h4 class="text-lg font-semibold text-primary mb-2 flex items-center"><i class="fas fa-brain w-6"></i> Refleksi Pengalaman Belajar</h4>
+                    
+                    <div class="space-y-4 text-gray-700 text-sm text-justify leading-relaxed">
+                        <div>
+                            <span class="font-semibold block text-gray-900 mb-1">1. Pengalaman Belajar Apa yang Berguna dan Menarik?</span>
+                            <p id="modal-ref-1">Teks refleksi pengalaman belajar akan muncul di sini.</p>
+                        </div>
+                        <div>
+                            <span class="font-semibold block text-gray-900 mb-1">2. Pengalaman Belajar Apa yang Berguna tetapi Kurang Menarik?</span>
+                            <p id="modal-ref-2">Teks refleksi akan muncul di sini.</p>
+                        </div>
+                        <div>
+                            <span class="font-semibold block text-gray-900 mb-1">3. Pengalaman Belajar Apa yang Menarik tetapi Kurang Berguna?</span>
+                            <p id="modal-ref-3">Teks refleksi akan muncul di sini.</p>
+                        </div>
+                        <div>
+                            <span class="font-semibold block text-gray-900 mb-1">4. Pengalaman Belajar Apa yang Tidak Menarik dan Tidak Berguna?</span>
+                            <p id="modal-ref-4">Teks refleksi akan muncul di sini.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-gray-100 my-6">
+
+                <div>
+                    <h4 class="text-lg font-semibold text-accent mb-4 flex items-center"><i class="fas fa-folder-open w-6"></i> Artefak Pembelajaran</h4>
+                    <p class="text-sm text-gray-600 mb-4">Berikut adalah bukti karya/artefak yang dihasilkan selama mengikuti mata kuliah ini.</p>
+                    
+                    <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 hover:border-accent transition-colors">
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                            <div class="bg-red-100 text-red-600 p-3 rounded-lg">
+                                <i class="fas fa-file-pdf text-xl"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold text-gray-800 text-sm">Jurnal Refleksi Dwi Mingguan.pdf</h5>
+                                <span class="text-xs text-gray-500">Tugas Akhir Mata Kuliah</span>
+                            </div>
+                        </div>
+                        <a id="modal-artifact-link" href="#" target="_blank" class="w-full sm:w-auto text-center bg-white border-2 border-primary text-primary hover:bg-primary hover:text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                            Lihat Artefak
+                        </a>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- Footer Modal -->
+            <div class="px-6 py-4 border-t border-gray-100 bg-gray-50 text-right">
+                <button onclick="closeModal()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-5 py-2 rounded-lg font-medium transition-colors text-sm">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-6 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm text-gray-500">
+            &copy; <script>document.write(new Date().getFullYear())</script> Portofolio Seminar PPG | Disusun oleh [Nama Anda]
+        </div>
+    </footer>
+
+    <script>
+        // Anda dapat MENGUBAH nama mata kuliah dan isinya di sini!
+        const mataKuliahSem1 = [
+            {
+                id: "s1_mk1",
+                nama: "Filosofi Pendidikan Indonesia",
+                icon: "fa-landmark",
+                refleksi: [
+                    "Mempelajari pemikiran Ki Hajar Dewantara sangat membuka wawasan saya tentang pendidikan yang menuntun.",
+                    "Mengkaji sejarah pendidikan kolonial cukup padat informasinya, berguna sebagai fondasi namun metode diskusinya bisa dibuat lebih bervariasi.",
+                    "Menonton film dokumenter sejarah pendidikan sangat menarik, meski terkadang konteksnya sulit langsung diaplikasikan di kelas modern.",
+                    "Tidak ada, semua materi dirasa memiliki perannya masing-masing dalam membangun mindset saya."
+                ],
+                artefak_link: "#"
+            },
+            {
+                id: "s1_mk2",
+                nama: "Pemahaman Peserta Didik dan Pembelajarannya",
+                icon: "fa-users",
+                refleksi: [
+                    "Membuat asesmen diagnostik karakter siswa sangat berguna dan saya langsung menerapkannya saat PPL.",
+                    "Teori perkembangan kognitif Piaget penting dihafal untuk ujian, namun terkadang praktiknya di lapangan butuh penyesuaian.",
+                    "Permainan role-play saat kuliah menarik, namun tidak secara langsung mengatasi masalah nyata di kelas PPL saya.",
+                    "Tidak ada."
+                ],
+                artefak_link: "#"
+            },
+            {
+                id: "s1_mk3",
+                nama: "Prinsip Pengajaran dan Asesmen I",
+                icon: "fa-chalkboard-teacher",
+                refleksi: ["Menyusun modul ajar dengan pendekatan Understanding by Design (UbD).", "Menyusun rubrik penilaian yang sangat detail.", "Diskusi kelomopok tentang ragam asesmen.", "Tidak ada."],
+                artefak_link: "#"
+            },
+            {
+                id: "s1_mk4",
+                nama: "Praktik Pengalaman Lapangan (PPL) I",
+                icon: "fa-school",
+                refleksi: ["Terjun langsung mengajar di kelas terbimbing dan mendapat feedback dari Guru Pamong.", "Menyusun laporan administrasi observasi sekolah yang cukup repetitif.", "Observasi lingkungan fisik sekolah.", "Tidak ada."],
+                artefak_link: "#"
+            },
+            {
+                id: "s1_mk5",
+                nama: "Mata Kuliah Pilihan I",
+                icon: "fa-plus-circle",
+                refleksi: ["Mempelajari integrasi teknologi dalam pembelajaran.", "Mengkaji teori-teori adopsi teknologi.", "Mencoba berbagai aplikasi game edukasi usang.", "Tidak ada."],
+                artefak_link: "#"
+            },
+            {
+                id: "s1_mk6",
+                nama: "Proyek Kepemimpinan I",
+                icon: "fa-project-diagram",
+                refleksi: ["Merancang pemetaan potensi lingkungan sekitar sekolah untuk proyek sosial.", "Mengurus perizinan birokrasi proyek.", "Brainstorming ide proyek yang ternyata tidak visibel.", "Tidak ada."],
+                artefak_link: "#"
+            }
+        ];
+
+        const mataKuliahSem2 = [
+            {
+                id: "s2_mk1",
+                nama: "Pembelajaran Sosial Emosional",
+                icon: "fa-hands-helping",
+                refleksi: ["Praktik mindfulness (kesadaran penuh) dan teknik STOP untuk mengelola emosi di kelas.", "Membaca jurnal teori kecerdasan emosional.", "Bermain peran sebagai siswa yang tantrum.", "Tidak ada."],
+                artefak_link: "#"
+            },
+            {
+                id: "s2_mk2",
+                nama: "Prinsip Pengajaran dan Asesmen II",
+                icon: "fa-tasks",
+                refleksi: ["Merancang pembelajaran berdiferensiasi dan Teaching at the Right Level (TaRL).", "Menyusun instrumen penilaian afektif dan psikomotorik.", "Menganalisis contoh RPP guru lain.", "Tidak ada."],
+                artefak_link: "#"
+            },
+            {
+                id: "s2_mk3",
+                nama: "Praktik Pengalaman Lapangan (PPL) II",
+                icon: "fa-chalkboard",
+                refleksi: ["Mengajar mandiri, mengelola dinamika kelas secara utuh, dan PTK Kolaboratif.", "Merekam video full pembelajaran dan mengeditnya.", "Mengikuti kegiatan seremonial sekolah.", "Tidak ada."],
+                artefak_link: "#"
+            },
+            {
+                id: "s2_mk4",
+                nama: "Seminar Pendidikan Profesi Guru",
+                icon: "fa-user-graduate",
+                refleksi: ["Menyusun portofolio digital ini dan merefleksikan seluruh proses.", "Mengkaji sistematika penulisan laporan akhir.", "Latihan presentasi.", "Tidak ada."],
+                artefak_link: "#"
+            },
+            {
+                id: "s2_mk5",
+                nama: "Mata Kuliah Pilihan II",
+                icon: "fa-lightbulb",
+                refleksi: ["Membuat modul ajar berbasis kearifan lokal.", "Menganalisis dokumen kurikulum daerah.", "Diskusi tentang sejarah daerah.", "Tidak ada."],
+                artefak_link: "#"
+            },
+            {
+                id: "s2_mk6",
+                nama: "Proyek Kepemimpinan II",
+                icon: "fa-flag-checkered",
+                refleksi: ["Melaksanakan pameran karya atau eksekusi aksi nyata di panti asuhan/masyarakat.", "Menyusun LPJ Keuangan.", "Rapat koordinasi mingguan.", "Tidak ada."],
+                artefak_link: "#"
+            }
+        ];
+
+        
+        // Fungsi untuk Navigasi antar Menu (Single Page Application logic)
+        function navigate(sectionId) {
+            // Sembunyikan semua section
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Tampilkan section yang dipilih
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update status tombol navbar
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-50', 'text-primary');
+                btn.classList.add('text-gray-700');
+            });
+            
+            // Update tombol yang aktif berdasarkan atribut onclick
+            const activeBtns = document.querySelectorAll(`button[onclick="navigate('${sectionId}')"]`);
+            activeBtns.forEach(btn => {
+                btn.classList.remove('text-gray-700');
+                btn.classList.add('bg-blue-50', 'text-primary');
+            });
+
+            // Tutup menu mobile jika terbuka
+            document.getElementById('mobile-menu').classList.add('hidden');
+            
+            // Scroll ke atas
+            window.scrollTo(0, 0);
+        }
+
+        // Toggle Menu Mobile
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Fungsi Render Kartu Mata Kuliah
+        function renderSubjects(dataArray, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = ''; // Kosongkan dulu
+
+            dataArray.forEach(subject => {
+                const card = document.createElement('div');
+                card.className = "subject-card bg-white rounded-xl p-6 border border-gray-100 shadow-sm cursor-pointer group";
+                
+                // Mengkonversi objek ke string aman untuk dilempar ke fungsi onclick
+                const subjectData = JSON.stringify(subject).replace(/"/g, '&quot;');
+
+                card.innerHTML = `
+                    <div onclick="openModal(${subjectData})" class="h-full flex flex-col">
+                        <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors mb-4">
+                            <i class="fas ${subject.icon} text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 leading-snug mb-2 group-hover:text-primary transition-colors">${subject.nama}</h3>
+                        <p class="text-sm text-gray-500 mt-auto">Klik untuk melihat refleksi & artefak <i class="fas fa-arrow-right ml-1 text-xs opacity-0 group-hover:opacity-100 transition-opacity"></i></p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Buka Modal dan Isi Data
+        function openModal(subject) {
+            const modal = document.getElementById('subject-modal');
+            
+            // Isi Konten
+            document.getElementById('modal-title').innerText = subject.nama;
+            document.getElementById('modal-ref-1').innerText = subject.refleksi[0];
+            document.getElementById('modal-ref-2').innerText = subject.refleksi[1];
+            document.getElementById('modal-ref-3').innerText = subject.refleksi[2];
+            document.getElementById('modal-ref-4').innerText = subject.refleksi[3];
+            document.getElementById('modal-artifact-link').href = subject.artefak_link;
+            
+            // Tampilkan Modal
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Cegah scroll background
+        }
+
+        // Tutup Modal
+        function closeModal() {
+            const modal = document.getElementById('subject-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto'; // Kembalikan scroll background
+        }
+
+        // Render saat halaman dimuat
+        window.addEventListener('DOMContentLoaded', () => {
+            renderSubjects(mataKuliahSem1, 'grid-sem-1');
+            renderSubjects(mataKuliahSem2, 'grid-sem-2');
+        });
+        
+        // Menutup modal jika tombol Escape ditekan
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
